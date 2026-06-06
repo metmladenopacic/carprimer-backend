@@ -36,18 +36,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: 'maven'
-
-      - name: Grant execute permission for mvnw
-        run: chmod +x mvnw
-
-      - name: Build JAR file
-        run: ./mvnw clean package -DskipTests   # testovi su već prošli u 'test' job-u
+      # JAR se sada gradi UNUTAR Docker multi-stage build-a (vidi Dockerfile),
+      # pa ovde nije potreban zaseban Maven korak.
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
