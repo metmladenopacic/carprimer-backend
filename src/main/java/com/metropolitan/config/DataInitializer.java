@@ -61,16 +61,17 @@ public class DataInitializer {
                 userRepository.save(user);
             }
 
-            // 4. OWNERS
-            Owner owner1 = Owner.builder().firstName("Ana").lastName("Petrović").build();
-            Owner owner2 = Owner.builder().firstName("Marko").lastName("Jovanović").build();
-            ownerRepository.saveAll(List.of(owner1, owner2));
+            // 4. OWNERS + CARS — samo ako baza još nema podataka (izbegava duplikate pri svakom restartu)
+            if (ownerRepository.count() == 0 && carRepository.count() == 0) {
+                Owner owner1 = Owner.builder().firstName("Ana").lastName("Petrović").build();
+                Owner owner2 = Owner.builder().firstName("Marko").lastName("Jovanović").build();
+                ownerRepository.saveAll(List.of(owner1, owner2));
 
-            // 5. CARS
-            Car car1 = Car.builder().brand("Toyota").model("Yaris").manufactureYear(2020).owner(owner1).build();
-            Car car2 = Car.builder().brand("Ford").model("Focus").manufactureYear(2018).owner(owner1).build();
-            Car car3 = Car.builder().brand("Hyundai").model("i30").manufactureYear(2022).owner(owner2).build();
-            carRepository.saveAll(List.of(car1, car2, car3));
+                Car car1 = Car.builder().brand("Toyota").model("Yaris").manufactureYear(2020).owner(owner1).build();
+                Car car2 = Car.builder().brand("Ford").model("Focus").manufactureYear(2018).owner(owner1).build();
+                Car car3 = Car.builder().brand("Hyundai").model("i30").manufactureYear(2022).owner(owner2).build();
+                carRepository.saveAll(List.of(car1, car2, car3));
+            }
         };
     }
 }
